@@ -18,12 +18,8 @@
 		<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
 	</head>
 
-	<body>
-		
-			
-			<div id="map"></div>
-			
-						
+	<body>			
+			<div id="map"></div>	
 			<script>
 		    var map = L.map('map').setView([35.4, -98], 7);
 		    
@@ -34,15 +30,16 @@
 	            attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
             }).addTo(map);
             
-            
+        	// Faults 
             var faults = L.geoJson(faults, {
                 weight: 2
             }).addTo(map);
 	        
+	        // Faults
 			var faults2 = 'faults.png',
             imageBounds = [[-103.3044,33.7015], [-94.2407,37.1647]];
 
-            L.imageOverlay(faults2,imageBounds).addTo(map);
+            L.imageOverlay('faults.png',imageBounds).addTo(map);
             						    
 		    //Quakes GeoJSON Layer
             var quakes = L.geoJson(quakes, {
