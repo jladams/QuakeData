@@ -34,13 +34,16 @@
 	            attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
             }).addTo(map);
             
-
-
+            
             var faults = L.geoJson(faults, {
                 weight: 2
             }).addTo(map);
 	        
-											    
+			var faults2 = 'faults.png',
+            imageBounds = [[-103.3044,33.7015], [-94.2407,37.1647]];
+
+            L.imageOverlay(faults2,imageBounds).addTo(map);
+            						    
 		    //Quakes GeoJSON Layer
             var quakes = L.geoJson(quakes, {
      		    onEachFeature: function (feature, layer) {
@@ -54,9 +57,11 @@
          		        fillColor: "#ff7800",
          		        color: "#000",
          		        label: feature.properties.prefmag
-         		    }
+        		    }
      			)}
  	        }).addTo(map);
+			
+//			var quakes = omnivore.csv('wichita.ogs.ou.edu/eq/catalog/past7days/past7days.csv').addTo(map);
 			
 	        var wells = L.geoJson(wells, {
 	        	onEachFeature: function (feature, layer) {
