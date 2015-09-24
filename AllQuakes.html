@@ -14,6 +14,7 @@
 		    }
 		</style> 
         <script src="past7days.js" type="text/javascript"></script>
+        <script src="past7days.json" type="text/javascript"></script>
         <script src="faults.js" type="text/javascript"></script>
         <script src="wells.js" type="text/javascript"></script>
 	</head>
@@ -22,8 +23,7 @@
 		<div id="map"></div>	
 		<script>
 		    var map = L.map('map').setView([35.4, -98], 7);
-		    
-		    
+		    		    
 		    //Map Base Tiles
             var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
 	            maxZoom: 16,
@@ -50,25 +50,61 @@
          		        label: feature.properties.prefmag
         		    }
      			)}
- 	        });
-     		   
- 	        var quakes7 = L.geoCsv('past7days.csv', {
- 	            titles: ['id','origintime','latitude','longitude','depth','err_lon','err_lat','err_depth','err_origintime','county','origin_src','prefmag,pmag_type','pmag_src','mw','mw_src','mblg_ogs','mblg_usgs','ml_ogs','m3hz_ogs','md_ogs','mb,ms','mfa','max_mmi','reafile','reamtime','geom','pdlid','mw_ogs'],
- 	            latitudeTitle: 'latitude',
- 	            longitudeTitle: 'longitude',
- 	            firstLineTitles: true,
-     		    onEachFeature: function (feature, layer) {
-         		    layer.bindPopup(feature.properties["prefmag"])
-         		},
-         		pointToLayer: function (feature, latlng) {
-         		    return L.circleMarker(latlng, {
-         		        radius: feature.properties["prefmag"] * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000",
-        		    })
-     			}
  	        }).addTo(map);
-					
+
+   			
+            	var quakes7 = L.geoJson(quakes7days, {
+     		    	onEachFeature: function (feature, layer) {
+         		    	layer.bindPopup(feature.properties.prefmag, {
+         			    	autoPan: false
+         				})
+         			},
+         			pointToLayer: function (feature, latlng) {
+         		    	return L.circleMarker(latlng, {
+         		        	radius: feature.properties.prefmag * 5,
+         		        	fillColor: "#ff7800",
+         		        	color: "#000",
+         		        	label: feature.properties.prefmag
+        		    	}
+     				)}
+ 	        	});			
+     		   
+ 	  //      var quakes7 = L.geoCsv(csvContents, {
+ 	   //         titles: ['id','origintime','latitude','longitude','depth','err_lon','err_lat','err_depth','err_origintime','county','origin_src','prefmag,pmag_type','pmag_src','mw','mw_src','mblg_ogs','mblg_usgs','ml_ogs','m3hz_ogs','md_ogs','mb,ms','mfa','max_mmi','reafile','reamtime','geom','pdlid','mw_ogs'],
+ 	    //        latitudeTitle: 'latitude',
+ 	     //       longitudeTitle: 'longitude',
+ 	      //      firstLineTitles: true,
+     	//	    onEachFeature: function (feature, layer) {
+        // 		    layer.bindPopup(feature.properties["prefmag"])
+         //		},
+         //		pointToLayer: function (feature, latlng) {
+         //		    return L.circleMarker(latlng, {
+         //		        radius: feature.properties["prefmag"] * 5,
+         //		        fillColor: "#ff7800",
+         //		        color: "#000",
+        //		    })
+     //			}
+ 	   //     });
+
+//  			$.get('past7days.csv', function(csvContents) {
+  //  			var quakes7 = L.geoCsv(csvContents, {
+    //				titles: ['id','origintime','latitude','longitude','depth','err_lon','err_lat','err_depth','err_origintime','county','origin_src','prefmag,pmag_type','pmag_src','mw','mw_src','mblg_ogs','mblg_usgs','ml_ogs','m3hz_ogs','md_ogs','mb,ms','mfa','max_mmi','reafile','reamtime','geom','pdlid','mw_ogs'],
+ 	  //          	latitudeTitle: 'latitude',
+ 	    //        	longitudeTitle: 'longitude',
+ 	      //      	firstLineTitles: true,
+     		//    	onEachFeature: function (feature, layer) {
+         	//	    	layer.bindPopup(feature.properties["prefmag"])
+         	//		},
+         	//		pointToLayer: function (feature, latlng) {
+         	//	    	return L.circleMarker(latlng, {
+         	//	        	radius: feature.properties["prefmag"] * 5,
+         	//	        	fillColor: "#ff7800",
+         	//	        	color: "#000",
+        	//	    	}
+        	//	    )}	
+  			//	})
+  	//		});
+	
 	        var wells = L.geoJson(wells, {
      		    onEachFeature: function (feature, layer) {
          		    layer.bindPopup(feature.properties.TOWNSHIP, {
@@ -89,7 +125,8 @@
             	};
             	
             var overlays = {
-            	"Quakes" : quakes7,
+            	"Quakes" : quakes,
+            	"Quakes 7" : quakes7,
 				"Faults" : faults,
 				"Wells" : wells
             	};
@@ -98,7 +135,7 @@
             
 			// Scale
 			L.control.scale({position: 'topright'}).addTo(map);
-
+			
 		</script>
 	</body>
 </html>
