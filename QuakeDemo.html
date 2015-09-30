@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>OK Earthquakes</title>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <script src="Leaflet.geoCSV/leaflet.geocsv.js"></script>
+		<style>
+		    html, body {
+		        height: 100%;
+		    }
+		    #map {
+		        height: 98%;
+		    }
+		</style> 
+        <script src="past7days.js" type="text/javascript"></script>
+        <script src="past7days.json" type="text/javascript"></script>
+        <script src="faults.js" type="text/javascript"></script>
+        <script src="wells.js" type="text/javascript"></script>
+	</head>
+
+	<body>			
+		<div id="map"></div>	
+		<script>
+		    var map = L.map('map').setView([35.4, -98], 7);
+		    		    
+		    //Map Base Tiles
+            var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	            maxZoom: 16,
+	            attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+            }).addTo(map);
+            
+        	// Faults 
+            var faults = L.geoJson(faults, {
+                weight: 2
+            }).addTo(map);
+            						    
+		    //Quakes GeoJSON Layer
+            var quakes = L.geoJson(quakes, {
+     		    onEachFeature: function (feature, layer) {
+         		    layer.bindPopup(feature.properties.prefmag, {
+         			    autoPan: false
+         			})
+         		},
+         		pointToLayer: function (feature, latlng) {
+         		    return L.circleMarker(latlng, {
+         		        radius: feature.properties.prefmag * 5,
+         		        fillColor: "#ff7800",
+         		        color: "#000",
+         		        label: feature.properties.prefmag
+        		    }
+     			)}
+ 	        }).addTo(map);
+
+   			
+            	var quakes7 = L.geoJson(quakes7days, {
+     		    	onEachFeature: function (feature, layer) {
+         		    	layer.bindPopup(feature.properties.prefmag, {
+         			    	autoPan: false
+         				})
+         			},
+         			pointToLayer: function (feature, latlng) {
+         		    	return L.circleMarker(latlng, {
+         		        	radius: feature.properties.prefmag * 5,
+         		        	fillColor: "#ff7800",
+         		        	color: "#000",
+         		        	label: feature.properties.prefmag
+        		    	}
+     				)}
+ 	        	});			
+     		   
+ 	  //      var quakes7 = L.geoCsv(csvContents, {
+ 	   //         titles: ['id','origintime','latitude','longitude','depth','err_lon','err_lat','err_depth','err_origintime','county','origin_src','prefmag,pmag_type','pmag_src','mw','mw_src','mblg_ogs','mblg_usgs','ml_ogs','m3hz_ogs','md_ogs','mb,ms','mfa','max_mmi','reafile','reamtime','geom','pdlid','mw_ogs'],
+ 	    //        latitudeTitle: 'latitude',
+ 	     //       longitudeTitle: 'longitude',
+ 	      //      firstLineTitles: true,
+     	//	    onEachFeature: function (feature, layer) {
+        // 		    layer.bindPopup(feature.properties["prefmag"])
+         //		},
+         //		pointToLayer: function (feature, latlng) {
+         //		    return L.circleMarker(latlng, {
+         //		        radius: feature.properties["prefmag"] * 5,
+         //		        fillColor: "#ff7800",
+         //		        color: "#000",
+        //		    })
+     //			}
+ 	   //     });
+
+//  			$.get('past7days.csv', function(csvContents) {
+  //  			var quakes7 = L.geoCsv(csvContents, {
+    //				titles: ['id','origintime','latitude','longitude','depth','err_lon','err_lat','err_depth','err_origintime','county','origin_src','prefmag,pmag_type','pmag_src','mw','mw_src','mblg_ogs','mblg_usgs','ml_ogs','m3hz_ogs','md_ogs','mb,ms','mfa','max_mmi','reafile','reamtime','geom','pdlid','mw_ogs'],
+ 	  //          	latitudeTitle: 'latitude',
+ 	    //        	longitudeTitle: 'longitude',
+ 	      //      	firstLineTitles: true,
+     		//    	onEachFeature: function (feature, layer) {
+         	//	    	layer.bindPopup(feature.properties["prefmag"])
+         	//		},
+         	//		pointToLayer: function (feature, latlng) {
+         	//	    	return L.circleMarker(latlng, {
+         	//	        	radius: feature.properties["prefmag"] * 5,
+         	//	        	fillColor: "#ff7800",
+         	//	        	color: "#000",
+        	//	    	}
+        	//	    )}	
+  			//	})
+  	//		});
+	
+	        var wells = L.geoJson(wells, {
+     		    onEachFeature: function (feature, layer) {
+         		    layer.bindPopup(feature.properties.TOWNSHIP, {
+         			    autoPan: false
+         			})
+         		},
+         		pointToLayer: function (feature, latlng) {
+         		    return L.circleMarker(latlng, {
+         		        radius: 5,
+         		        fillColor: "#00CBFF",
+         		        color: "#000",
+        		    }
+     			)}
+     		});
+		
+            var baseLayers = {
+            	"Topography" : OpenTopoMap,
+            	};
+            	
+            var overlays = {
+            	"Quakes" : quakes,
+            	"Quakes 7" : quakes7,
+				"Faults" : faults,
+				"Wells" : wells
+            	};
+
+            L.control.layers(baseLayers, overlays).addTo(map);
+            
+			// Scale
+			L.control.scale({position: 'topright'}).addTo(map);
+			
+		</script>
+	</body>
+</html>
