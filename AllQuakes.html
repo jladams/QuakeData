@@ -20,7 +20,15 @@
 	</head>
 
 	<body>			
-		<div id="map"></div>	
+		<div id="map"></div>
+<?php
+$ch = curl_init($_GET['url']);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$output = curl_exec($ch);
+curl_close($ch);
+echo $output;
+?>	
 		<script>
 		    var map = L.map('map').setView([35.4, -98], 7);
 		    		    
@@ -36,6 +44,26 @@
             }).addTo(map);
             						    
 		    //Quakes GeoJSON Layer
+		    var quakes = L.geoJson(data,{
+     		    onEachFeature: function (feature, layer) {
+         		    layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth + "</br>County: " + feature.properties.county, {
+         			    autoPan: false
+         			})
+         		},
+         		pointToLayer: function (feature, latlng) {
+         		    return L.circleMarker(latlng, {
+         		        radius: feature.properties.prefmag * 5,
+         		        fillColor: "#ff7800",
+         		        color: "#000",
+         		        label: feature.properties.prefmag
+        		    }
+     			)}
+ 	        });
+		    
+			$.getJSON("proxy.php?url=http://wichita.ogs.ou.edu/eq/catalog/past7days/past7days.json", function (data) {
+    			quakes.addData(data);
+			});
+					    
             var quakes7 = L.geoJson(past7days, {
      		    onEachFeature: function (feature, layer) {
          		    layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth + "</br>County: " + feature.properties.county, {
@@ -88,6 +116,7 @@
             	};
             	
             var overlays = {
+            	"Quakes" : quakes,
             	"Past 7 Days" : quakes7,
             	"Past 30 Days" : quakes30,
 				"Faults" : faults,
