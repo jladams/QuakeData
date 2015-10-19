@@ -21,16 +21,7 @@
 
 	<body>			
 		<div id="map"></div>
-<!-- Comment! -->
 
-<?php
-$ch = curl_init($_GET['url']);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$output = curl_exec($ch);
-curl_close($ch);
-echo $output;
-?>	
 		<script>
 		    var map = L.map('map').setView([35.4, -98], 7);
 		    		    
@@ -61,10 +52,6 @@ echo $output;
         		    }
      			)}
  	        });
-		    
-			$.getJSON("proxy.php?url=http://wichita.ogs.ou.edu/eq/catalog/past7days/past7days.json", function (data) {
-    			quakes.addData(data);
-			});
 					    
             var quakes7 = L.geoJson(past7days, {
      		    onEachFeature: function (feature, layer) {
