@@ -26,12 +26,16 @@
 		<div id="map"></div>
 
 		<script>
-		    var map = L.map('map').setView([35.4, -98], 7);
+		    var map = L.map('map').setView([35.4, -98], 8);
 		    		    
 		    //Map Base Tiles
-            var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-	            maxZoom: 16,
-	            attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+ //           var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	//            maxZoom: 9,
+	  //          attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        //    }).addTo(map);
+
+            var Esri_WorldTopoMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+	            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
             }).addTo(map);
             
         	// Faults 
@@ -87,7 +91,7 @@
      			)}
      		});
 
-     		var quakesseven = L.markerClusterGroup();
+     		var quakesseven = L.markerClusterGroup().addTo(map);
      		var quakesthirty = L.markerClusterGroup();
      		var wellscluster = L.markerClusterGroup();
      		
@@ -96,7 +100,6 @@
      		wellscluster.addLayer(wells);
 
             var baseLayers = {
-            	"Topography" : OpenTopoMap,
             	};
             	
             var overlays = {
