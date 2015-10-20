@@ -16,7 +16,6 @@
         <script src="past7days.js" type="text/javascript"></script>
         <script src="past30days.js" type="text/javascript"></script>
         <script src="faults.js" type="text/javascript"></script>
-        <script src="wells.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="Leaflet.markercluster-master/dist/MarkerCluster.css" />
 		<link rel="stylesheet" href="Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
 
@@ -77,28 +76,12 @@
      			)}
  	        });
 					
-	        var wells = L.geoJson(wells, {
-     		    onEachFeature: function (feature, layer) {
-         		    layer.bindPopup("Operator: " + feature.properties.OPERATOR + "</br>Formation: " + feature.properties.FORMATION, {
-         			    autoPan: false
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         		    return L.circleMarker(latlng, {
-         		        radius: 5,
-         		        fillColor: "#00CBFF",
-         		        color: "#000",
-        		    }
-     			)}
-     		});
 
      		var quakesseven = L.markerClusterGroup().addTo(map);
      		var quakesthirty = L.markerClusterGroup();
-     		var wellscluster = L.markerClusterGroup();
      		
      		quakesseven.addLayer(quakes7);
      		quakesthirty.addLayer(quakes30);
-     		wellscluster.addLayer(wells);
 
             var baseLayers = {
             	};
@@ -106,9 +89,8 @@
             var overlays = {
             	"Past 7 Days" : quakesseven,
             	"Past 30 Days" : quakesthirty,
-				"Faults" : faults,
-				"Wells" : wellscluster
-            	};
+				"Faults" : faults
+				};
 
             L.control.layers(baseLayers, overlays).addTo(map);
             
