@@ -4,7 +4,6 @@
 		<title>OK Earthquakes</title>
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
         <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-        <script src="Leaflet.geoCSV/leaflet.geocsv.js"></script>
 		<style>
 		    html, body {
 		        height: 100%;
@@ -12,30 +11,32 @@
 		    #map {
 		        height: 98%;
 		    }
-		</style> 
+		</style>
+		<script src="Leaflet.markercluster-master/dist/leaflet.markercluster.js" type="text/javascript"></script>
         <script src="past7days.js" type="text/javascript"></script>
         <script src="past30days.js" type="text/javascript"></script>
         <script src="faults.js" type="text/javascript"></script>
         <script src="wells.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="Leaflet.markercluster-master/dist/MarkerCluster.css" />
+		<link rel="stylesheet" href="Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
+
 	</head>
 
 	<body>			
 		<div id="map"></div>
-<?php
-$ch = curl_init($_GET['url']);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$output = curl_exec($ch);
-curl_close($ch);
-echo $output;
-?>	
+
 		<script>
-		    var map = L.map('map').setView([35.4, -98], 7);
+		    var map = L.map('map').setView([35.4, -98], 8);
 		    		    
 		    //Map Base Tiles
-            var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-	            maxZoom: 16,
-	            attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+ //           var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	//            maxZoom: 9,
+	  //          attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        //    }).addTo(map);
+
+            var Esri_WorldTopoMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+                maxZoom: 14,
+	            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
             }).addTo(map);
             
         	// Faults 
@@ -44,26 +45,6 @@ echo $output;
             }).addTo(map);
             						    
 		    //Quakes GeoJSON Layer
-		    var quakes = L.geoJson(data,{
-     		    onEachFeature: function (feature, layer) {
-         		    layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth + "</br>County: " + feature.properties.county, {
-         			    autoPan: false
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         		    return L.circleMarker(latlng, {
-         		        radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000",
-         		        label: feature.properties.prefmag
-        		    }
-     			)}
- 	        });
-		    
-			$.getJSON("proxy.php?url=http://wichita.ogs.ou.edu/eq/catalog/past7days/past7days.json", function (data) {
-    			quakes.addData(data);
-			});
-					    
             var quakes7 = L.geoJson(past7days, {
      		    onEachFeature: function (feature, layer) {
          		    layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth + "</br>County: " + feature.properties.county, {
@@ -78,7 +59,7 @@ echo $output;
          		        label: feature.properties.prefmag
         		    }
      			)}
- 	        }).addTo(map);
+ 	        });
 
             var quakes30 = L.geoJson(past30days, {
      		    onEachFeature: function (feature, layer) {
@@ -110,23 +91,31 @@ echo $output;
         		    }
      			)}
      		});
-		
+
+     		var quakesseven = L.markerClusterGroup().addTo(map);
+     		var quakesthirty = L.markerClusterGroup();
+     		var wellscluster = L.markerClusterGroup();
+     		
+     		quakesseven.addLayer(quakes7);
+     		quakesthirty.addLayer(quakes30);
+     		wellscluster.addLayer(wells);
+
             var baseLayers = {
-            	"Topography" : OpenTopoMap,
             	};
             	
             var overlays = {
-            	"Quakes" : quakes,
-            	"Past 7 Days" : quakes7,
-            	"Past 30 Days" : quakes30,
+            	"Past 7 Days" : quakesseven,
+            	"Past 30 Days" : quakesthirty,
 				"Faults" : faults,
-				"Wells" : wells
+				"Wells" : wellscluster
             	};
 
             L.control.layers(baseLayers, overlays).addTo(map);
             
 			// Scale
 			L.control.scale({position: 'topright'}).addTo(map);
+			     		
+
 			
 		</script>
 	</body>

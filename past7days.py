@@ -8,6 +8,7 @@ def past7days():
     f = open('past7days.js', 'w')
     f.write('past7days = ')
     json.dump(data, f)
+    f.close
     
 def past30days():
     url = "http://wichita.ogs.ou.edu/eq/catalog/past30days/past30days.json"
@@ -16,6 +17,7 @@ def past30days():
     f = open('past30days.js', 'w')
     f.write('past30days = ')
     json.dump(data, f)   
+    f.close
 
 def gatherdata():
     past7days()
