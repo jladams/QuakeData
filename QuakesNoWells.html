@@ -62,7 +62,6 @@
 		    	});
 
 //			Historical Quake Layers
-
 			var quakes2008 = L.geoJson(quake2008, {
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
@@ -170,8 +169,6 @@
  	        });
 
 //			Add Layers to Clusters
-
-
      		var cluster2008 = L.markerClusterGroup();
      		cluster2008.addLayer(quakes2008);
      		var cluster2009 = L.markerClusterGroup();
@@ -194,7 +191,6 @@
             	};
             	
             var overlays = {
-
 				"2008" : cluster2008,
 				"2009" : cluster2009,
 				"2010" : cluster2010,
