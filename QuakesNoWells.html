@@ -62,51 +62,7 @@
 		    	});
 
 //			Historical Quake Layers
-			var quakes2005 = L.geoJson(quake2005, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
-			var quakes2006 = L.geoJson(quake2006, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
-			var quakes2007 = L.geoJson(quake2007, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
+
 			var quakes2008 = L.geoJson(quake2008, {
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
@@ -214,12 +170,8 @@
  	        });
 
 //			Add Layers to Clusters
-     		var cluster2005 = L.markerClusterGroup();
-     		cluster2005.addLayer(quakes2005);
-     		var cluster2006 = L.markerClusterGroup();
-     		cluster2006.addLayer(quakes2006);
-     		var cluster2007 = L.markerClusterGroup();
-     		cluster2007.addLayer(quakes2007);
+
+
      		var cluster2008 = L.markerClusterGroup();
      		cluster2008.addLayer(quakes2008);
      		var cluster2009 = L.markerClusterGroup();
@@ -242,9 +194,7 @@
             	};
             	
             var overlays = {
-				"2005" : cluster2005,
-				"2006" : cluster2006,
-				"2007" : cluster2007,
+
 				"2008" : cluster2008,
 				"2009" : cluster2009,
 				"2010" : cluster2010,
