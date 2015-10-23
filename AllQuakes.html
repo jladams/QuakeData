@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 	<head>
 		<meta charset="utf-8"/>
@@ -13,6 +12,42 @@
 		    #map {
 		        height: 98%;
 		    }
+			.quake-cluster {
+				background-clip: padding-box;
+				border-radius: 20px;
+				background-color: rgba(255,127,80,.6);
+				}
+			.quake-cluster div {
+				width: 30px;
+				height: 30px;
+				margin-left: 5px;
+				margin-top: 5px;
+				text-align: center;
+				border-radius: 15px;
+				font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+				background-color: rgba(255,127,80,.6);
+			}
+			.quake-cluster span {
+				line-height: 30px;
+			}
+			.well-cluster {
+				background-clip: padding-box;
+				border-radius: 20px;
+				background-color: rgba(51,153,255,.6);
+				}
+			.well-cluster div {
+				width: 30px;
+				height: 30px;
+				margin-left: 5px;
+				margin-top: 5px;
+				text-align: center;
+				border-radius: 15px;
+				font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+				background-color: rgba(51,153,255,.6);
+			}
+			.well-cluster span {
+				line-height: 30px;
+			}
 		</style>
 		<script src="Leaflet.markercluster-master/dist/leaflet.markercluster.js" type="text/javascript"></script>
   		<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
@@ -26,11 +61,9 @@
   		<script src="data/quakes2012.js" type="text/javascript"></script>
   		<script src="data/quakes2013.js" type="text/javascript"></script>
   		<script src="data/quakes2014.js" type="text/javascript"></script>
-  		<script src="wells.js" type="text/javascript"></script>
+  		<script src="data/wellscleaned.js" type="text/javascript"></script>
         <script src="faults.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="Leaflet.markercluster-master/dist/MarkerCluster.css" />
-		<link rel="stylesheet" href="Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
-
 	</head>
 
 	<body>			
@@ -39,22 +72,21 @@
 		<script>
 		    var map = L.map('map').setView([35.4, -98], 8);
 
+//			Base Map
             var Esri_WorldTopoMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
                 maxZoom: 14,
 	            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
             }).addTo(map);
             
-        	// Faults 
+//			Faults
             var faults = L.geoJson(faults, {
                 weight: 2,
                 color: "red"
             });
             						    
-		    //Quakes GeoJSON Layer
-		    
+//			Get Recent Quake Data		    
 		    var quakes7_data;
-		    var quakes30_data;
-		    
+		    var quakes30_data;		    
 		    $.getJSON("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", function(data) {
 				load7days(data);
 		    	});
@@ -67,7 +99,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -82,7 +114,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -97,7 +129,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -112,7 +144,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -127,7 +159,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -142,7 +174,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -157,7 +189,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -172,42 +204,92 @@
 //			Wells
 	        var wells = L.geoJson(wells, {
      		    onEachFeature: function (feature, layer) {
-         		    layer.bindPopup("Operator: " + feature.properties.OPERATOR + "</br>Formation: " + feature.properties.FORMATION, {
-         			    autoPan: false
+         		    layer.bindPopup("Type: " + feature.properties.WELL_TYPE + "</br>Operator: " + feature.properties.OPERATOR + "</br>Formation: " + feature.properties.FORMATION + "</br>Max Rate: " + feature.properties.MAXRATE + "</br>Max Pressure: " + feature.properties.MAXPRESSURE, {
+         			    autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
          		    return L.circleMarker(latlng, {
-         		        radius: 5,
-         		        fillColor: "#00CBFF",
-         		        color: "#000",
-        		    }
-     			)}
+	     		        radius: 10,
+    	 		        fillColor: "#00CBFF",
+     			        color: "#000"
+     			   	})
+     			}
      		});
 
-//			Add Layers to Clusters
-     		var cluster2008 = L.markerClusterGroup();
+//			Create and Add Layers to Clusters
+     		var cluster2008 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2008.addLayer(quakes2008);
-     		var cluster2009 = L.markerClusterGroup();
+     		var cluster2009 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2009.addLayer(quakes2009);
-     		var cluster2010 = L.markerClusterGroup();
+     		var cluster2010 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2010.addLayer(quakes2010);
-     		var cluster2011 = L.markerClusterGroup();
+     		var cluster2011 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2011.addLayer(quakes2011);
-     		var cluster2012 = L.markerClusterGroup();
+     		var cluster2012 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2012.addLayer(quakes2012);
-     		var cluster2013 = L.markerClusterGroup();
+     		var cluster2013 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2013.addLayer(quakes2013);
-     		var cluster2014 = L.markerClusterGroup();
+     		var cluster2014 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2014.addLayer(quakes2014);
-     		var quakesseven = L.markerClusterGroup().addTo(map);
-     		var quakesthirty = L.markerClusterGroup();
-     		var wellscluster = L.markerClusterGroup();
+     		var quakesseven = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		}).addTo(map);
+     		var quakesthirty = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
+     		var wellscluster = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'well-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		wellscluster.addLayer(wells);
 
+//			Create Layer Control
             var baseLayers = {
-            	};
-            	
+            	};            	
             var overlays = {
 				"2008" : cluster2008,
 				"2009" : cluster2009,
@@ -221,18 +303,18 @@
 				"Faults" : faults,
 				"Wells" : wellscluster
 				};
-
             L.control.layers(baseLayers, overlays).addTo(map);
             
 			// Scale
 			L.control.scale({position: 'topright'}).addTo(map);
-			     		
+			  
+//			Add Recent Quake Data to Layers     		
 			function load7days(data) {
 			    var quakes7 = L.geoJson(data, {
      		    	onEachFeature: function (feature, layer) {
      		    		temp = new Date(feature.properties.time);
          		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag + "</br>Depth: " + feature.geometry.depth, {
-         			    	autoPan: false
+         			    	autoPan: true
          				})
          			},
          			pointToLayer: function (feature, latlng) {
@@ -250,7 +332,7 @@
      		    	onEachFeature: function (feature, layer) {
      		    		temp = new Date(feature.properties.time);
          		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag + "</br>Depth: " + feature.geometry.depth, {
-         			    	autoPan: false
+         			    	autoPan: true
          				})
          			},
          			pointToLayer: function (feature, latlng) {
