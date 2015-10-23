@@ -13,6 +13,24 @@
 		    #map {
 		        height: 98%;
 		    }
+			.quake-cluster {
+				background-clip: padding-box;
+				border-radius: 20px;
+				background-color: rgba(255,127,80,.7);
+				}
+			.quake-cluster div {
+				width: 30px;
+				height: 30px;
+				margin-left: 5px;
+				margin-top: 5px;
+				text-align: center;
+				border-radius: 15px;
+				font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+				background-color: rgba(255,127,80,.3);
+			}
+			.quake-cluster span {
+				line-height: 30px;
+			}
 		</style>
 		<script src="Leaflet.markercluster-master/dist/leaflet.markercluster.js" type="text/javascript"></script>
   		<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
@@ -169,22 +187,73 @@
  	        });
 
 //			Add Layers to Clusters
-     		var cluster2008 = L.markerClusterGroup();
+     		var cluster2008 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2008.addLayer(quakes2008);
-     		var cluster2009 = L.markerClusterGroup();
+     		var cluster2009 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2009.addLayer(quakes2009);
-     		var cluster2010 = L.markerClusterGroup();
+     		var cluster2010 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2010.addLayer(quakes2010);
-     		var cluster2011 = L.markerClusterGroup();
+     		var cluster2011 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2011.addLayer(quakes2011);
-     		var cluster2012 = L.markerClusterGroup();
+     		var cluster2012 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2012.addLayer(quakes2012);
-     		var cluster2013 = L.markerClusterGroup();
+     		var cluster2013 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2013.addLayer(quakes2013);
-     		var cluster2014 = L.markerClusterGroup();
+     		var cluster2014 = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		cluster2014.addLayer(quakes2014);
-     		var quakesseven = L.markerClusterGroup().addTo(map);
-     		var quakesthirty = L.markerClusterGroup();
+     		var quakesseven = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		}).addTo(map);
+     		var quakesthirty = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
+     		var wellscluster = L.markerClusterGroup({
+				iconCreateFunction: function (cluster) {
+					var childCount = cluster.getChildCount();
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+				}
+     		});
      		
 
             var baseLayers = {
