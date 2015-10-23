@@ -26,11 +26,10 @@
   		<script src="data/quakes2012.js" type="text/javascript"></script>
   		<script src="data/quakes2013.js" type="text/javascript"></script>
   		<script src="data/quakes2014.js" type="text/javascript"></script>
-  		<script src="wells.js" type="text/javascript"></script>
+  		<script src="data/wellscleaned.js" type="text/javascript"></script>
         <script src="faults.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="Leaflet.markercluster-master/dist/MarkerCluster.css" />
 		<link rel="stylesheet" href="Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
-
 	</head>
 
 	<body>			
@@ -172,17 +171,17 @@
 //			Wells
 	        var wells = L.geoJson(wells, {
      		    onEachFeature: function (feature, layer) {
-         		    layer.bindPopup("Operator: " + feature.properties.OPERATOR + "</br>Formation: " + feature.properties.FORMATION, {
+         		    layer.bindPopup("Type: " + feature.properties.WELL_TYPE + "</br>Operator: " + feature.properties.OPERATOR + "</br>Formation: " + feature.properties.FORMATION + "</br>Max Rate: " + feature.properties.MAXRATE + "</br>Max Pressure: " + feature.properties.MAXPRESSURE, {
          			    autoPan: false
          			})
          		},
          		pointToLayer: function (feature, latlng) {
          		    return L.circleMarker(latlng, {
-         		        radius: 5,
-         		        fillColor: "#00CBFF",
-         		        color: "#000",
-        		    }
-     			)}
+	     		        radius: 10,
+    	 		        fillColor: "#00CBFF",
+     			        color: "#000"
+     			   	})
+     			}
      		});
 
 //			Add Layers to Clusters
