@@ -15,7 +15,7 @@
 			.quake-cluster {
 				background-clip: padding-box;
 				border-radius: 20px;
-				background-color: rgba(255,127,80,.7);
+				background-color: rgba(255,127,80,.6);
 				}
 			.quake-cluster div {
 				width: 30px;
@@ -25,9 +25,27 @@
 				text-align: center;
 				border-radius: 15px;
 				font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
-				background-color: rgba(255,127,80,.3);
+				background-color: rgba(255,127,80,.6);
 			}
 			.quake-cluster span {
+				line-height: 30px;
+			}
+			.well-cluster {
+				background-clip: padding-box;
+				border-radius: 20px;
+				background-color: rgba(51,153,255,.6);
+				}
+			.well-cluster div {
+				width: 30px;
+				height: 30px;
+				margin-left: 5px;
+				margin-top: 5px;
+				text-align: center;
+				border-radius: 15px;
+				font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+				background-color: rgba(51,153,255,.6);
+			}
+			.well-cluster span {
 				line-height: 30px;
 			}
 		</style>
@@ -81,7 +99,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -96,7 +114,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -111,7 +129,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -126,7 +144,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -141,7 +159,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -156,7 +174,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -171,7 +189,7 @@
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
     		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: false
+    		    		autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -187,7 +205,7 @@
 	        var wells = L.geoJson(wells, {
      		    onEachFeature: function (feature, layer) {
          		    layer.bindPopup("Type: " + feature.properties.WELL_TYPE + "</br>Operator: " + feature.properties.OPERATOR + "</br>Formation: " + feature.properties.FORMATION + "</br>Max Rate: " + feature.properties.MAXRATE + "</br>Max Pressure: " + feature.properties.MAXPRESSURE, {
-         			    autoPan: false
+         			    autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
@@ -264,7 +282,7 @@
      		var wellscluster = L.markerClusterGroup({
 				iconCreateFunction: function (cluster) {
 					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
+					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'well-cluster', iconSize: new L.Point(40, 40) });
 				}
      		});
      		wellscluster.addLayer(wells);
@@ -296,7 +314,7 @@
      		    	onEachFeature: function (feature, layer) {
      		    		temp = new Date(feature.properties.time);
          		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag + "</br>Depth: " + feature.geometry.depth, {
-         			    	autoPan: false
+         			    	autoPan: true
          				})
          			},
          			pointToLayer: function (feature, latlng) {
@@ -314,7 +332,7 @@
      		    	onEachFeature: function (feature, layer) {
      		    		temp = new Date(feature.properties.time);
          		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag + "</br>Depth: " + feature.geometry.depth, {
-         			    	autoPan: false
+         			    	autoPan: true
          				})
          			},
          			pointToLayer: function (feature, latlng) {
