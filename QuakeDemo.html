@@ -61,7 +61,7 @@
 	            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
             }).addTo(map);
             
-        	// Faults 
+        	// Faults - calculating all these points slows down the map, so consider creating an image overlay instead
             var faults = L.geoJson(faults, {
                 weight: 2,
                 color: "red"
@@ -71,7 +71,8 @@
 		    
 		    var quakes7_data;
 		    var quakes30_data;
-		    
+
+//			Retrieves latest earthquake data from USGS		    
 		    $.getJSON("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", function(data) {
 				load7days(data);
 		    	});
@@ -79,7 +80,7 @@
 				load30days(data);
 		    	});
 
-//			Historical Quake Layers
+//			Historical Quake Data from Oklahoma
 			var quakes2008 = L.geoJson(quake2008, {
      	    	onEachFeature: function (feature, layer) {
      	    		temp = new Date(feature.properties.time);
@@ -276,12 +277,14 @@
             
 			// Scale
 			L.control.scale({position: 'topright'}).addTo(map);
-			     		
+			
+			
+			// Load in the data and style the popups     		
 			function load7days(data) {
 			    var quakes7 = L.geoJson(data, {
      		    	onEachFeature: function (feature, layer) {
      		    		temp = new Date(feature.properties.time);
-         		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag + "</br>Depth: " + feature.geometry.depth, {
+         		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag, {
          			    	autoPan: true
          				})
          			},
@@ -294,12 +297,13 @@
      				)}
  	        	});
  	        	quakesseven.addLayer(quakes7);
-			};		
+			};
+					
 			function load30days(data) {
 			    var quakes30 = L.geoJson(data, {
      		    	onEachFeature: function (feature, layer) {
      		    		temp = new Date(feature.properties.time);
-         		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag + "</br>Depth: " + feature.geometry.depth, {
+         		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag, {
          			    	autoPan: true
          				})
          			},
