@@ -1,0 +1,49 @@
+html, body {
+	height: 100%;
+}
+
+#map {
+	height: 98%;
+}
+
+.quake-cluster {
+	background-clip: padding-box;
+	border-radius: 20px;
+	background-color: rgba(255,127,80,.6);
+}
+
+.quake-cluster div {
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+	margin-top: 5px;
+	text-align: center;
+	border-radius: 15px;
+	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	background-color: rgba(255,127,80,.6);
+}
+
+.quake-cluster span {
+	line-height: 30px;
+}
+
+.well-cluster {
+	background-clip: padding-box;
+	border-radius: 20px;
+	background-color: rgba(176,224,230,.6);
+}
+
+.well-cluster div {
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+	margin-top: 5px;
+	text-align: center;
+	border-radius: 15px;
+	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	background-color: rgba(176,224,230,.6);
+}
+
+.well-cluster span {
+	line-height: 30px;
+}
