@@ -121,7 +121,7 @@
 //			Define Well Styles
             var wellOptions = {
      		    onEachFeature: function (feature, layer) {
-         		    layer.bindPopup("Operator: " + feature.properties.OPERATOR + "</br>Well Type: " + feature.properties.WELL_TYPE + "</br>Max Rate: " + feature.properties.MAXRATE + "</br>Max Pressure: " + feature.properties.MAXPRESSURE, {
+         		    layer.bindPopup("Operator: " + feature.properties.OPERATOR + "</br>Well Type: " + feature.properties.WELL_TYPE, {
          			    autoPan: true
          			})
          		},
