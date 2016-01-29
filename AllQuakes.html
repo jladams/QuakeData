@@ -121,14 +121,13 @@
 //			Define Well Styles
             var wellOptions = {
      		    onEachFeature: function (feature, layer) {
-     		    	temp = new Date(feature.properties.time);
-         		    layer.bindPopup("Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag, {
+         		    layer.bindPopup("Operator: " + feature.properties.OPERATOR + "</br>Well Type: " + feature.properties.WELL_TYPE + "</br>Max Rate: " + feature.properties.MAXRATE + "</br>Max Pressure: " + feature.properties.MAXPRESSURE, {
          			    autoPan: true
          			})
          		},
          		pointToLayer: function (feature, latlng) {
          		    return L.circleMarker(latlng, {
-         		        radius: feature.properties.mag * 5,
+         		        radius: 15,
          		        fillColor: "#0000ff",
          		        color: "#000"
         		    }
